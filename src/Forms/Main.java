@@ -50,11 +50,13 @@ import javax.swing.WindowConstants;
 public class Main extends javax.swing.JFrame {
 
   private Positions positionsFrame;
+  private Departments departmentsFrame;
   /**
    * Creates new form Main
    */
   public Main() {
     initComponents();
+    setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
     jDesktopPane1.setDesktopManager(new DefaultDesktopManager() {
       
       @Override
@@ -131,6 +133,11 @@ public class Main extends javax.swing.JFrame {
     fileMenu.add(employeesListMenuItem);
 
     departmentsMenuItem.setText("Departments");
+    departmentsMenuItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        departmentsMenuItemActionPerformed(evt);
+      }
+    });
     fileMenu.add(departmentsMenuItem);
 
     positionsMenuItem.setText("Positions");
@@ -225,6 +232,52 @@ public class Main extends javax.swing.JFrame {
       dispose();
     }
   }//GEN-LAST:event_exitMenuItemActionPerformed
+
+  private void departmentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departmentsMenuItemActionPerformed
+    
+    if (departmentsFrame == null) {
+      departmentsFrame = new Departments();
+
+      Dimension desktopSize = jDesktopPane1.getSize();
+      Dimension internalFrameSize = departmentsFrame.getSize();
+
+      departmentsFrame.setLocation(
+        (desktopSize.width - internalFrameSize.width) / 2,
+        (desktopSize.height - internalFrameSize.height) / 2
+      );
+
+      jDesktopPane1.add(departmentsFrame);
+    }
+    else {
+      if (departmentsFrame.isIcon()) {
+        try {
+          
+          Dimension desktopSize = jDesktopPane1.getSize();
+          Dimension internalFrameSize = departmentsFrame.getSize();
+
+          departmentsFrame.setLocation(
+            (desktopSize.width - internalFrameSize.width) / 2,
+            (desktopSize.height - internalFrameSize.height) / 2
+          );
+          
+          departmentsFrame.setIcon(false);
+        } catch (PropertyVetoException ex) {
+          Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      }
+      else if (!departmentsFrame.isVisible()) {
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension internalFrameSize = departmentsFrame.getSize();
+
+        departmentsFrame.setLocation(
+          (desktopSize.width - internalFrameSize.width) / 2,
+          (desktopSize.height - internalFrameSize.height) / 2
+        );
+        
+        departmentsFrame.setVisible(true);
+      }
+    }
+  }//GEN-LAST:event_departmentsMenuItemActionPerformed
 
   /**
    * @param args the command line arguments

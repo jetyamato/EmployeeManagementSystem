@@ -23,7 +23,7 @@
  */
 package Forms;
 
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -45,27 +45,25 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 /**
  *
  * @author josep
  */
-public final class Positions extends JInternalFrame {
+public final class Departments extends JInternalFrame {
 
-  private final ArrayList<Data.Objects.Positions> positionsList = Data.Mock.Database.positions();
+  private final ArrayList<Data.Objects.Departments> departmentsList = Data.Mock.Database.departments();
   private boolean inEditMode = false;
-  private Data.Objects.Positions positionToEdit;
+  private Data.Objects.Departments departmentToEdit;
   
   /**
    * Creates new form Positions
    */
-  public Positions() {
+  public Departments() {
     initComponents();
     refreshTableContents();
-    
     jTable1.getSelectionModel().addListSelectionListener((ListSelectionEvent evt) -> {
       jTable1ValueChanged(evt);
     });
@@ -81,18 +79,20 @@ public final class Positions extends JInternalFrame {
     jScrollPane1 = new JScrollPane();
     jTable1 = new JTable();
     jLabel1 = new JLabel();
-    txtPosition = new JTextField();
+    txtDeptCode = new JTextField();
     btnAddOrEdit = new JButton();
     btnSave = new JButton();
     btnExit = new JButton();
     btnDelete = new JButton();
     btnCancel = new JButton();
     lblCount = new JLabel();
+    txtDeptName = new JTextField();
+    jLabel2 = new JLabel();
 
     setClosable(true);
     setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
     setIconifiable(true);
-    setTitle("Positions");
+    setTitle("Departments");
     setVisible(true);
     addInternalFrameListener(new InternalFrameListener() {
       public void internalFrameActivated(InternalFrameEvent evt) {
@@ -117,11 +117,11 @@ public final class Positions extends JInternalFrame {
 
       },
       new String [] {
-        "ID", "Position"
+        "ID", "Dept. Code", "Dept. Name"
       }
     ) {
       boolean[] canEdit = new boolean [] {
-        false, false
+        false, false, false
       };
 
       public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -133,10 +133,10 @@ public final class Positions extends JInternalFrame {
     jScrollPane1.setViewportView(jTable1);
 
     jLabel1.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
-    jLabel1.setText("Position:");
+    jLabel1.setText("Dept. Code:");
 
-    txtPosition.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
-    txtPosition.setEnabled(false);
+    txtDeptCode.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
+    txtDeptCode.setEnabled(false);
 
     btnAddOrEdit.setIcon(new ImageIcon(getClass().getResource("/Resources/add.png"))); // NOI18N
     btnAddOrEdit.setText("  Add");
@@ -184,41 +184,51 @@ public final class Positions extends JInternalFrame {
     lblCount.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
     lblCount.setText("Records Found: 0");
 
+    txtDeptName.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
+    txtDeptName.setEnabled(false);
+
+    jLabel2.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
+    jLabel2.setText("Dept. Name:");
+
     GroupLayout layout = new GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
+      .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
         .addGap(21, 21, 21)
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-          .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-              .addComponent(lblCount, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-              .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(txtPosition)))
-            .addGap(325, 325, 325))
-          .addGroup(layout.createSequentialGroup()
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+          .addComponent(jScrollPane1)
+          .addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-              .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 640, GroupLayout.PREFERRED_SIZE)
-              .addGroup(layout.createSequentialGroup()
-                .addComponent(btnAddOrEdit)
-                .addGap(18, 18, 18)
-                .addComponent(btnSave)
-                .addGap(18, 18, 18)
-                .addComponent(btnDelete)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancel)
-                .addGap(18, 18, 18)
-                .addComponent(btnExit)))
-            .addContainerGap(21, Short.MAX_VALUE))))
+              .addComponent(jLabel1)
+              .addComponent(jLabel2))
+            .addGap(18, 18, 18)
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+              .addComponent(txtDeptName)
+              .addComponent(txtDeptCode)))
+          .addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+            .addComponent(btnAddOrEdit)
+            .addGap(18, 18, 18)
+            .addComponent(btnSave)
+            .addGap(18, 18, 18)
+            .addComponent(btnDelete)
+            .addGap(18, 18, 18)
+            .addComponent(btnCancel)
+            .addGap(18, 18, 18)
+            .addComponent(btnExit)
+            .addGap(0, 0, Short.MAX_VALUE))
+          .addComponent(lblCount, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addGap(21, 21, 21))
     );
     layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
+      .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
         .addGap(21, 21, 21)
         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-          .addComponent(txtPosition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+          .addComponent(txtDeptCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
           .addComponent(jLabel1))
+        .addGap(18, 18, 18)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+          .addComponent(txtDeptName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+          .addComponent(jLabel2))
         .addGap(18, 18, 18)
         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
           .addComponent(btnAddOrEdit)
@@ -226,10 +236,10 @@ public final class Positions extends JInternalFrame {
           .addComponent(btnDelete)
           .addComponent(btnCancel)
           .addComponent(btnExit))
-        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
         .addComponent(lblCount)
         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 274, GroupLayout.PREFERRED_SIZE)
         .addContainerGap(21, Short.MAX_VALUE))
     );
 
@@ -249,7 +259,8 @@ public final class Positions extends JInternalFrame {
 
   private void btnAddOrEditActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnAddOrEditActionPerformed
     if (btnAddOrEdit.getText().trim().equalsIgnoreCase("add")) {
-      txtPosition.setEnabled(true);
+      txtDeptCode.setEnabled(true);
+      txtDeptName.setEnabled(true);
       btnAddOrEdit.setEnabled(false);
       btnSave.setEnabled(true);
       btnDelete.setEnabled(false);
@@ -258,22 +269,24 @@ public final class Positions extends JInternalFrame {
     } else {
       DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
       int selectedId = (int) model.getValueAt(jTable1.getSelectedRow(), 0);
-      Data.Objects.Positions i = null;
+      Data.Objects.Departments i = null;
 
-      for (Data.Objects.Positions p : this.positionsList) {
+      for (Data.Objects.Departments p : this.departmentsList) {
         if (p.getId() == selectedId) {
           i = p;
           break;
         }
       }
 
-      positionToEdit = i;
+      departmentToEdit = i;
 
-      if (positionToEdit != null) {
+      if (departmentToEdit != null) {
         inEditMode = true;
         
-        txtPosition.setText(positionToEdit.getPositionName());
-        txtPosition.setEnabled(true);
+        txtDeptCode.setText(departmentToEdit.getDepartmentCode());
+        txtDeptCode.setEnabled(true);
+        txtDeptName.setText(departmentToEdit.getDepartmentName());
+        txtDeptName.setEnabled(true);
         btnAddOrEdit.setEnabled(false);
         btnSave.setEnabled(true);
         btnDelete.setEnabled(false);
@@ -297,32 +310,49 @@ public final class Positions extends JInternalFrame {
   private void btnSaveActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
     // Validation check
     
-    String positionName = txtPosition.getText();
+    String departmentCode = txtDeptCode.getText();
+    String departmentName = txtDeptName.getText();
     
-    if (positionName.isBlank()) JOptionPane.showMessageDialog(this, "Position is missing.", "Add", JOptionPane.ERROR_MESSAGE);
-    else {
+    ArrayList<String> errors = new ArrayList();
+    
+    if (departmentCode.isBlank()) errors.add("Department Code is missing.");
+    if (departmentName.isBlank()) errors.add("Department Name is missing.");
+    
+    if (!errors.isEmpty()) {
+    
+      String errorString = "<html>The following errors occurred:<br>";
+      
+      for (int i = 0; i < errors.size(); i++) {
+        errorString += errors.get(i);
+        if (i + 1 < errors.size()) errorString += "<br>";
+      }
+      
+      JOptionPane.showMessageDialog(this, errorString, (inEditMode) ? "Edit" : "Add", JOptionPane.ERROR_MESSAGE);
+    
+    } else {
       if (inEditMode) {
-        positionToEdit.setPositionName(positionName);
+        departmentToEdit.setDepartmentName(departmentName);
         
-        for (Data.Objects.Positions p : this.positionsList) {
-          if (p.getId() == positionToEdit.getId()) {
-            p.setPositionName(positionToEdit.getPositionName());
+        for (Data.Objects.Departments p : this.departmentsList) {
+          if (p.getId() == departmentToEdit.getId()) {
+            p.setDepartmentName(departmentToEdit.getDepartmentName());
             break;
           }
         }
       } else {
-        Data.Objects.Positions newPosition = new Data.Objects.Positions(
-          positionsList.size() + 1,
-          positionName
+        Data.Objects.Departments newDepartment = new Data.Objects.Departments(
+          departmentsList.size() + 1,
+          departmentCode,
+          departmentName
         );
 
-        positionsList.add(newPosition);
+        departmentsList.add(newDepartment);
       }
       
       resetTheForm();
       refreshTableContents();
       
-      JOptionPane.showMessageDialog(this, inEditMode ? "Position edited successfully." : "Position added successfully.", inEditMode ? "Edit" : "Add", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(this, inEditMode ? "Department edited successfully." : "Department added successfully.", inEditMode ? "Edit" : "Add", JOptionPane.INFORMATION_MESSAGE);
     }
   }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -332,21 +362,21 @@ public final class Positions extends JInternalFrame {
     if (choice == JOptionPane.YES_OPTION) {
       DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
       int selectedId = (int) model.getValueAt(jTable1.getSelectedRow(), 0);
-      Data.Objects.Positions positionToDelete = null;
+      Data.Objects.Departments departmentToDelete = null;
       
-      for (Data.Objects.Positions p : this.positionsList) {
+      for (Data.Objects.Departments p : this.departmentsList) {
         if (p.getId() == selectedId) {
-          positionToDelete = p;
+          departmentToDelete = p;
           break;
         }
       }
         
-      this.positionsList.remove(positionToDelete);
+      this.departmentsList.remove(departmentToDelete);
 
       resetTheForm();
       refreshTableContents();
       
-      JOptionPane.showMessageDialog(this, "Position Deleted Successfully.", "Delete", JOptionPane.INFORMATION_MESSAGE);
+      JOptionPane.showMessageDialog(this, "Department Deleted Successfully.", "Delete", JOptionPane.INFORMATION_MESSAGE);
     }
   }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -358,10 +388,12 @@ public final class Positions extends JInternalFrame {
   JButton btnExit;
   JButton btnSave;
   JLabel jLabel1;
+  JLabel jLabel2;
   JScrollPane jScrollPane1;
   JTable jTable1;
   JLabel lblCount;
-  JTextField txtPosition;
+  JTextField txtDeptCode;
+  JTextField txtDeptName;
   // End of variables declaration//GEN-END:variables
 
   private void refreshTableContents() {
@@ -371,11 +403,12 @@ public final class Positions extends JInternalFrame {
     
     int count = 0;
     
-    for (Data.Objects.Positions p : this.positionsList) {
+    for (Data.Objects.Departments p : this.departmentsList) {
       model.addRow(
         new Object[] {
           p.getId(),
-          p.getPositionName()
+          p.getDepartmentCode(),
+          p.getDepartmentName()
         }
       );
       ++count;
@@ -406,8 +439,10 @@ public final class Positions extends JInternalFrame {
   }
   
   private void resetTheForm() {
-    txtPosition.setText("");
-    txtPosition.setEnabled(false);
+    txtDeptCode.setText("");
+    txtDeptCode.setEnabled(false);
+    txtDeptName.setText("");
+    txtDeptName.setEnabled(false);
     btnAddOrEdit.setIcon(new ImageIcon(getClass().getResource("/Resources/add.png"))); // NOI18N
     btnAddOrEdit.setText("  Add");
     btnAddOrEdit.setEnabled(true);
@@ -419,14 +454,17 @@ public final class Positions extends JInternalFrame {
   }
   
   private void adjustColumnWidths() {
+    
 //    JTableHeader headers = jTable1.getTableHeader();
 //    headers.setForeground(Color.BLUE);
     
     TableColumn idColumn = jTable1.getColumnModel().getColumn(0);
     idColumn.setPreferredWidth(50);
     
-    TableColumn positionColumn = jTable1.getColumnModel().getColumn(1);
-    positionColumn.setPreferredWidth(250);
+    TableColumn deptCodeColumn = jTable1.getColumnModel().getColumn(1);
+    deptCodeColumn.setPreferredWidth(100);
     
+    TableColumn deptNameColumn = jTable1.getColumnModel().getColumn(2);
+    deptNameColumn.setPreferredWidth(400);
   }
 }
