@@ -23,7 +23,6 @@
  */
 package Forms;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -45,9 +44,9 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
+
+import EmployeeManagementSystem.DependencyInjector;
 
 /**
  *
@@ -55,7 +54,7 @@ import javax.swing.table.TableColumnModel;
  */
 public final class Positions extends JInternalFrame {
 
-  private final ArrayList<Data.Objects.Positions> positionsList = Data.Mock.Database.positions();
+  private final ArrayList<Data.Objects.Positions> positionsList = DependencyInjector.getInstance().getPositionsList();
   private boolean inEditMode = false;
   private Data.Objects.Positions positionToEdit;
   
@@ -100,6 +99,7 @@ public final class Positions extends JInternalFrame {
       public void internalFrameClosed(InternalFrameEvent evt) {
       }
       public void internalFrameClosing(InternalFrameEvent evt) {
+        formInternalFrameClosing(evt);
       }
       public void internalFrameDeactivated(InternalFrameEvent evt) {
       }
@@ -291,7 +291,7 @@ public final class Positions extends JInternalFrame {
   private void btnExitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
     resetTheForm();
     refreshTableContents();
-    setVisible(false);
+    dispose();
   }//GEN-LAST:event_btnExitActionPerformed
 
   private void btnSaveActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -349,6 +349,11 @@ public final class Positions extends JInternalFrame {
       JOptionPane.showMessageDialog(this, "Position Deleted Successfully.", "Delete", JOptionPane.INFORMATION_MESSAGE);
     }
   }//GEN-LAST:event_btnDeleteActionPerformed
+
+  private void formInternalFrameClosing(InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+    resetTheForm();
+    refreshTableContents();
+  }//GEN-LAST:event_formInternalFrameClosing
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

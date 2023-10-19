@@ -26,8 +26,11 @@ package Forms;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,12 +39,21 @@ import javax.swing.GroupLayout;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.WindowConstants;
+
+import EmployeeManagementSystem.App;
+import java.awt.Color;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.LayoutStyle;
+import javax.swing.Timer;
 
 /**
  *
@@ -51,12 +63,22 @@ public class Main extends javax.swing.JFrame {
 
   private Positions positionsFrame;
   private Departments departmentsFrame;
+  private Employees employeesFrame;
+  private About aboutFrame;
+  private Timer timer;
+  
   /**
    * Creates new form Main
    */
   public Main() {
     initComponents();
     setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+    lblCurrentUser.setFont(new Font("JetBrains Mono", Font.PLAIN, 48));
+    lblCurrentUser.setForeground(Color.white);
+    lblClock.setFont(new Font("JetBrains Mono", Font.PLAIN, 24));
+    lblClock.setForeground(Color.white);
+    lblDate.setFont(new Font("JetBrains Mono", Font.PLAIN, 24));
+    lblDate.setForeground(Color.white);
     jDesktopPane1.setDesktopManager(new DefaultDesktopManager() {
       
       @Override
@@ -85,6 +107,16 @@ public class Main extends javax.swing.JFrame {
         super.dragFrame(f, x, y);
       }
     });
+    
+    int delay = 100;
+    
+    timer = new Timer(delay, (ActionEvent evt) -> {
+      LocalDateTime dateTime = LocalDateTime.now();
+      lblClock.setText(dateTime.format(DateTimeFormatter.ofPattern("h:mm:ss a")));
+      lblDate.setText(dateTime.format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")));
+    });
+    
+    timer.start();
   }
 
   /**
@@ -95,6 +127,9 @@ public class Main extends javax.swing.JFrame {
   private void initComponents() {
 
     jDesktopPane1 = new JDesktopPane();
+    lblCurrentUser = new JLabel();
+    lblClock = new JLabel();
+    lblDate = new JLabel();
     mainMenuBar = new JMenuBar();
     fileMenu = new JMenu();
     employeesListMenuItem = new JMenuItem();
@@ -106,18 +141,53 @@ public class Main extends javax.swing.JFrame {
     helpMenu = new JMenu();
     aboutMenuItem = new JMenuItem();
 
-    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setTitle("Employee Management System");
+    addWindowListener(new WindowAdapter() {
+      public void windowClosing(WindowEvent evt) {
+        formWindowClosing(evt);
+      }
+      public void windowOpened(WindowEvent evt) {
+        formWindowOpened(evt);
+      }
+    });
 
     jDesktopPane1.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+
+    lblCurrentUser.setText("Welcome, User");
+
+    lblClock.setText("System Time:");
+
+    lblDate.setText("System Date:");
+
+    jDesktopPane1.setLayer(lblCurrentUser, JLayeredPane.DEFAULT_LAYER);
+    jDesktopPane1.setLayer(lblClock, JLayeredPane.DEFAULT_LAYER);
+    jDesktopPane1.setLayer(lblDate, JLayeredPane.DEFAULT_LAYER);
 
     GroupLayout jDesktopPane1Layout = new GroupLayout(jDesktopPane1);
     jDesktopPane1.setLayout(jDesktopPane1Layout);
     jDesktopPane1Layout.setHorizontalGroup(jDesktopPane1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-      .addGap(0, 921, Short.MAX_VALUE)
+      .addGroup(jDesktopPane1Layout.createSequentialGroup()
+        .addGap(23, 23, 23)
+        .addGroup(jDesktopPane1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+          .addGroup(jDesktopPane1Layout.createSequentialGroup()
+            .addComponent(lblCurrentUser)
+            .addContainerGap(819, Short.MAX_VALUE))
+          .addGroup(jDesktopPane1Layout.createSequentialGroup()
+            .addComponent(lblClock)
+            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblDate)
+            .addGap(23, 23, 23))))
     );
     jDesktopPane1Layout.setVerticalGroup(jDesktopPane1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-      .addGap(0, 588, Short.MAX_VALUE)
+      .addGroup(jDesktopPane1Layout.createSequentialGroup()
+        .addGap(30, 30, 30)
+        .addComponent(lblCurrentUser)
+        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 482, Short.MAX_VALUE)
+        .addGroup(jDesktopPane1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+          .addComponent(lblClock)
+          .addComponent(lblDate))
+        .addGap(44, 44, 44))
     );
 
     getContentPane().add(jDesktopPane1, BorderLayout.CENTER);
@@ -149,6 +219,11 @@ public class Main extends javax.swing.JFrame {
     fileMenu.add(positionsMenuItem);
 
     employeesMenuItem.setText("Employees");
+    employeesMenuItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        employeesMenuItemActionPerformed(evt);
+      }
+    });
     fileMenu.add(employeesMenuItem);
     fileMenu.add(jSeparator1);
 
@@ -165,6 +240,11 @@ public class Main extends javax.swing.JFrame {
     helpMenu.setText("Help");
 
     aboutMenuItem.setText("About");
+    aboutMenuItem.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent evt) {
+        aboutMenuItemActionPerformed(evt);
+      }
+    });
     helpMenu.add(aboutMenuItem);
 
     mainMenuBar.add(helpMenu);
@@ -192,6 +272,9 @@ public class Main extends javax.swing.JFrame {
         (desktopSize.height - internalFrameSize.height) / 2
       );
 
+      positionsFrame.toFront();
+      positionsFrame.repaint();
+      
       jDesktopPane1.add(positionsFrame);
     }
     else {
@@ -205,6 +288,9 @@ public class Main extends javax.swing.JFrame {
             (desktopSize.width - internalFrameSize.width) / 2,
             (desktopSize.height - internalFrameSize.height) / 2
           );
+          
+          positionsFrame.toFront();
+          positionsFrame.repaint();
           
           positionsFrame.setIcon(false);
         } catch (PropertyVetoException ex) {
@@ -220,17 +306,16 @@ public class Main extends javax.swing.JFrame {
           (desktopSize.height - internalFrameSize.height) / 2
         );
         
+        positionsFrame.toFront();
+        positionsFrame.repaint();
+        
         positionsFrame.setVisible(true);
       }
     }
   }//GEN-LAST:event_positionsMenuItemActionPerformed
 
   private void exitMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
-    int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-    
-    if (choice == JOptionPane.YES_OPTION) {
-      dispose();
-    }
+    confirmClose();
   }//GEN-LAST:event_exitMenuItemActionPerformed
 
   private void departmentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departmentsMenuItemActionPerformed
@@ -246,6 +331,9 @@ public class Main extends javax.swing.JFrame {
         (desktopSize.height - internalFrameSize.height) / 2
       );
 
+      departmentsFrame.toFront();
+      departmentsFrame.repaint();
+      
       jDesktopPane1.add(departmentsFrame);
     }
     else {
@@ -259,6 +347,9 @@ public class Main extends javax.swing.JFrame {
             (desktopSize.width - internalFrameSize.width) / 2,
             (desktopSize.height - internalFrameSize.height) / 2
           );
+          
+          departmentsFrame.toFront();
+          departmentsFrame.repaint();
           
           departmentsFrame.setIcon(false);
         } catch (PropertyVetoException ex) {
@@ -274,11 +365,120 @@ public class Main extends javax.swing.JFrame {
           (desktopSize.height - internalFrameSize.height) / 2
         );
         
+        departmentsFrame.toFront();
+        departmentsFrame.repaint();
+        
         departmentsFrame.setVisible(true);
       }
     }
   }//GEN-LAST:event_departmentsMenuItemActionPerformed
 
+  private void employeesMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeesMenuItemActionPerformed
+    
+    if (employeesFrame == null) {
+      employeesFrame = new Employees();
+
+      Dimension desktopSize = jDesktopPane1.getSize();
+      Dimension internalFrameSize = employeesFrame.getSize();
+
+      employeesFrame.setLocation(
+        (desktopSize.width - internalFrameSize.width) / 2,
+        (desktopSize.height - internalFrameSize.height) / 2
+      );
+
+      employeesFrame.toFront();
+      employeesFrame.repaint();
+      
+      jDesktopPane1.add(employeesFrame);
+    }
+    else {
+      if (employeesFrame.isIcon()) {
+        try {
+          
+          Dimension desktopSize = jDesktopPane1.getSize();
+          Dimension internalFrameSize = employeesFrame.getSize();
+
+          employeesFrame.setLocation(
+            (desktopSize.width - internalFrameSize.width) / 2,
+            (desktopSize.height - internalFrameSize.height) / 2
+          );
+          
+          employeesFrame.toFront();
+          employeesFrame.repaint();
+          
+          employeesFrame.setIcon(false);
+        } catch (PropertyVetoException ex) {
+          Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      }
+      else if (!employeesFrame.isVisible()) {
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension internalFrameSize = employeesFrame.getSize();
+
+        employeesFrame.setLocation(
+          (desktopSize.width - internalFrameSize.width) / 2,
+          (desktopSize.height - internalFrameSize.height) / 2
+        );
+        
+        employeesFrame.toFront();
+        employeesFrame.repaint();
+        
+        employeesFrame.setVisible(true);
+      }
+    }
+  }//GEN-LAST:event_employeesMenuItemActionPerformed
+
+  private void aboutMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+    
+    if (aboutFrame == null) {
+      aboutFrame = new About();
+
+      Dimension desktopSize = jDesktopPane1.getSize();
+      Dimension internalFrameSize = aboutFrame.getSize();
+
+      aboutFrame.setLocation(
+        (desktopSize.width - internalFrameSize.width) / 2,
+        (desktopSize.height - internalFrameSize.height) / 2
+      );
+
+      aboutFrame.toFront();
+      aboutFrame.repaint();
+      
+      jDesktopPane1.add(aboutFrame);
+    }
+    else if (!aboutFrame.isVisible()) {
+      Dimension desktopSize = jDesktopPane1.getSize();
+      Dimension internalFrameSize = aboutFrame.getSize();
+
+      aboutFrame.setLocation(
+        (desktopSize.width - internalFrameSize.width) / 2,
+        (desktopSize.height - internalFrameSize.height) / 2
+      );
+
+      aboutFrame.toFront();
+      aboutFrame.repaint();
+
+      aboutFrame.setVisible(true);
+    }
+  }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+  private void formWindowClosing(WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    confirmClose();
+  }//GEN-LAST:event_formWindowClosing
+
+  private void formWindowOpened(WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+    lblCurrentUser.setText("Welcome, " + App.getCurrentUser());
+  }//GEN-LAST:event_formWindowOpened
+
+  private void confirmClose() {
+    int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+    
+    if (choice == JOptionPane.YES_OPTION) {
+      timer.stop();
+      dispose();
+    }
+  }
+  
   /**
    * @param args the command line arguments
    */
@@ -324,6 +524,9 @@ public class Main extends javax.swing.JFrame {
   JMenu helpMenu;
   JDesktopPane jDesktopPane1;
   JPopupMenu.Separator jSeparator1;
+  JLabel lblClock;
+  JLabel lblCurrentUser;
+  JLabel lblDate;
   JMenuBar mainMenuBar;
   JMenuItem positionsMenuItem;
   // End of variables declaration//GEN-END:variables

@@ -39,7 +39,6 @@ public class Employees {
   private int departmentId;
   private int positionId;
   private String contactNumber;
-  private int userId;
 
   public Employees(
     int _id,
@@ -49,8 +48,7 @@ public class Employees {
     LocalDate _dateOfBirth,
     int _departmentId,
     int _positionId,
-    String _contactNumber,
-    int _userId
+    String _contactNumber
   ) {
     this.id = _id;
     this.employeeId = _employeeId;
@@ -60,7 +58,6 @@ public class Employees {
     this.departmentId = _departmentId;
     this.positionId = _positionId;
     this.contactNumber = _contactNumber;
-    this.userId = _userId;
   }
 
   public int getId() {
@@ -126,14 +123,5 @@ public class Employees {
   public void setContactNumber(String _contactNumber) {
     this.contactNumber = _contactNumber;
   }
-
-  public int getUserId() {
-    return userId;
-  }
-
-  public void setUserId(int _userId) {
-    this.userId = _userId;
-  }
-  
   
 }

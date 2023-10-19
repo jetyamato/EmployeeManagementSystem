@@ -32,6 +32,12 @@ import Forms.Main;
  */
 public class App {
   
+  private static String currentUser = "Joseph";
+  
+  public static String getCurrentUser() {
+    return currentUser;
+  }
+  
   static void run() {
     // Show the login form and ask the user to login.
     // When the login succeeds, get the role of the user.
@@ -82,19 +88,5 @@ public class App {
     // When the user types a search term, the list should be updated
     // with the employees that fulfill the search term.
     
-    // DEPARTMENT FORM:
-    // Show the department form with the list of departments and the number of departments.
-    // The form must be able to CREATE, READ, UPDATE and DELETE departments.
-    
-    // POSITION FORM:
-    // Show the position form with the list of positions and the number of positions.
-    // The form must be able to CREATE, READ, UPDATE and DELETE positions.
-    
-    // EMPLOYEE FORM:
-    // Show the employee form with the list of employees and the number of employees.
-    // The form must be able to CREATE, READ, UPDATE and DELETE employees.
-    
-    // ABOUT FORM:
-    // Show the about form with the information about the software.
   }
 }

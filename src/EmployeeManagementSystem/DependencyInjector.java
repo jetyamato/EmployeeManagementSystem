@@ -23,10 +23,44 @@
  */
 package EmployeeManagementSystem;
 
+import Data.Objects.Departments;
+import Data.Objects.Employees;
+import Data.Objects.Positions;
+import java.util.ArrayList;
+
 /**
  *
  * @author josep
  */
 public class DependencyInjector {
+  private final ArrayList<Data.Objects.Departments> departmentsList;
+  private final ArrayList<Data.Objects.Positions> positionsList;
+  private final ArrayList<Data.Objects.Employees> employeesList;
+  
+  private DependencyInjector() {
+    departmentsList = Data.Mock.Database.departments();
+    positionsList = Data.Mock.Database.positions();
+    employeesList = Data.Mock.Database.employees();
+  }
+  
+  private static class DependencyInjectorSingleton {
+    private static final DependencyInjector INSTANCE = new DependencyInjector();
+  }
+  
+  public static DependencyInjector getInstance() {
+    return DependencyInjectorSingleton.INSTANCE;
+  }
+
+  public ArrayList<Departments> getDepartmentsList() {
+    return departmentsList;
+  }
+
+  public ArrayList<Positions> getPositionsList() {
+    return positionsList;
+  }
+
+  public ArrayList<Employees> getEmployeesList() {
+    return employeesList;
+  }
   
 }

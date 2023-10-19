@@ -48,13 +48,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
+import EmployeeManagementSystem.DependencyInjector;
+
 /**
  *
  * @author josep
  */
 public final class Departments extends JInternalFrame {
 
-  private final ArrayList<Data.Objects.Departments> departmentsList = Data.Mock.Database.departments();
+  private final ArrayList<Data.Objects.Departments> departmentsList = DependencyInjector.getInstance().getDepartmentsList();
   private boolean inEditMode = false;
   private Data.Objects.Departments departmentToEdit;
   
@@ -100,6 +102,7 @@ public final class Departments extends JInternalFrame {
       public void internalFrameClosed(InternalFrameEvent evt) {
       }
       public void internalFrameClosing(InternalFrameEvent evt) {
+        formInternalFrameClosing(evt);
       }
       public void internalFrameDeactivated(InternalFrameEvent evt) {
       }
@@ -302,9 +305,7 @@ public final class Departments extends JInternalFrame {
   }//GEN-LAST:event_btnCancelActionPerformed
 
   private void btnExitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-    resetTheForm();
-    refreshTableContents();
-    setVisible(false);
+    dispose();
   }//GEN-LAST:event_btnExitActionPerformed
 
   private void btnSaveActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -379,6 +380,11 @@ public final class Departments extends JInternalFrame {
       JOptionPane.showMessageDialog(this, "Department Deleted Successfully.", "Delete", JOptionPane.INFORMATION_MESSAGE);
     }
   }//GEN-LAST:event_btnDeleteActionPerformed
+
+  private void formInternalFrameClosing(InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+    resetTheForm();
+    refreshTableContents();
+  }//GEN-LAST:event_formInternalFrameClosing
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
