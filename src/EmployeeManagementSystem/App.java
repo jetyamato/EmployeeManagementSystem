@@ -25,6 +25,7 @@ package EmployeeManagementSystem;
 
 import java.awt.EventQueue;
 import Forms.Main;
+import Forms.Login;
 
 /**
  *
@@ -33,9 +34,18 @@ import Forms.Main;
 public class App {
   
   private static String currentUser = "Joseph";
+  private static String currentRole;
   
   public static String getCurrentUser() {
     return currentUser;
+  }
+
+  public static String getCurrentRole() {
+    return currentRole;
+  }
+
+  public static void setCurrentRole(String _currentRole) {
+    App.currentRole = _currentRole;
   }
   
   static void run() {
@@ -79,7 +89,7 @@ public class App {
     
     EventQueue.invokeLater(new Runnable() {
       public void run() {
-        new Main().setVisible(true);
+        new Login().setVisible(true);
       }
     });
     

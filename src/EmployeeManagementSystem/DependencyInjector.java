@@ -26,6 +26,7 @@ package EmployeeManagementSystem;
 import Data.Objects.Departments;
 import Data.Objects.Employees;
 import Data.Objects.Positions;
+import Facades.LoginFacade;
 import java.util.ArrayList;
 
 /**
@@ -36,11 +37,13 @@ public class DependencyInjector {
   private final ArrayList<Data.Objects.Departments> departmentsList;
   private final ArrayList<Data.Objects.Positions> positionsList;
   private final ArrayList<Data.Objects.Employees> employeesList;
+  private final LoginFacade loginFacade;
   
   private DependencyInjector() {
     departmentsList = Data.Mock.Database.departments();
     positionsList = Data.Mock.Database.positions();
     employeesList = Data.Mock.Database.employees();
+    loginFacade = LoginFacade.getInstance();
   }
   
   private static class DependencyInjectorSingleton {
@@ -61,6 +64,10 @@ public class DependencyInjector {
 
   public ArrayList<Employees> getEmployeesList() {
     return employeesList;
+  }
+
+  public LoginFacade loginFacade() {
+    return loginFacade;
   }
   
 }

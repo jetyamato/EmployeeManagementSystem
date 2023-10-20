@@ -510,6 +510,11 @@ public class Main extends javax.swing.JFrame {
 
   private void formWindowOpened(WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     lblCurrentUser.setText("Welcome, " + App.getCurrentUser());
+    
+    if (App.getCurrentRole().equalsIgnoreCase("user")) {
+      departmentsMenuItem.setEnabled(false);
+      positionsMenuItem.setEnabled(false);
+    }
   }//GEN-LAST:event_formWindowOpened
 
   private void confirmClose() {
