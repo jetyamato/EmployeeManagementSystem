@@ -101,7 +101,7 @@ public final class About extends JInternalFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void jButton1ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    dispose();
+    setVisible(false);
   }//GEN-LAST:event_jButton1ActionPerformed
 
 

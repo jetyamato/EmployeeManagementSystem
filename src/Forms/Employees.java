@@ -150,11 +150,11 @@ public final class Employees extends JInternalFrame {
 
       },
       new String [] {
-        "ID", "Employee ID", "Name", "Birthday", "Contact Number", "Department", "Position"
+        "ID", "Employee ID", "Last Name", "First Name", "Birthday", "Contact Number", "Department", "Position"
       }
     ) {
       boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false, false
+        false, false, false, false, false, false, false, false
       };
 
       public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -586,7 +586,8 @@ public final class Employees extends JInternalFrame {
         new Object[] {
           p.getId(),
           p.getEmployeeId(),
-          p.getFirstName() + " " + p.getLastName(),
+          p.getLastName(),
+          p.getFirstName(),
           p.getDateOfBirth().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy")),
           p.getContactNumber(),
           department,
@@ -655,19 +656,22 @@ public final class Employees extends JInternalFrame {
     TableColumn employeeIdColumn = jTable1.getColumnModel().getColumn(1);
     employeeIdColumn.setPreferredWidth(150);
     
-    TableColumn nameColumn = jTable1.getColumnModel().getColumn(2);
-    nameColumn.setPreferredWidth(150);
+    TableColumn lastNameColumn = jTable1.getColumnModel().getColumn(2);
+    lastNameColumn.setPreferredWidth(150);
     
-    TableColumn birthdayColumn = jTable1.getColumnModel().getColumn(3);
+    TableColumn firstNameColumn = jTable1.getColumnModel().getColumn(3);
+    firstNameColumn.setPreferredWidth(150);
+    
+    TableColumn birthdayColumn = jTable1.getColumnModel().getColumn(4);
     birthdayColumn.setPreferredWidth(100);
     
-    TableColumn contactNumberColumn = jTable1.getColumnModel().getColumn(4);
+    TableColumn contactNumberColumn = jTable1.getColumnModel().getColumn(5);
     contactNumberColumn.setPreferredWidth(100);
     
-    TableColumn departmentColumn = jTable1.getColumnModel().getColumn(5);
+    TableColumn departmentColumn = jTable1.getColumnModel().getColumn(6);
     departmentColumn.setPreferredWidth(300);
     
-    TableColumn positionColumn = jTable1.getColumnModel().getColumn(6);
+    TableColumn positionColumn = jTable1.getColumnModel().getColumn(7);
     positionColumn.setPreferredWidth(100);
     
   }

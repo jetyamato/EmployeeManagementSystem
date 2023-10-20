@@ -23,36 +23,24 @@
  */
 package Forms;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultDesktopManager;
-import javax.swing.GroupLayout;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.WindowConstants;
 
 import EmployeeManagementSystem.App;
 import java.awt.Color;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.swing.LayoutStyle;
 import javax.swing.Timer;
 
 /**
@@ -65,7 +53,8 @@ public class Main extends javax.swing.JFrame {
   private Departments departmentsFrame;
   private Employees employeesFrame;
   private About aboutFrame;
-  private Timer timer;
+  private List listFrame;
+  private final Timer timer;
   
   /**
    * Creates new form Main
@@ -126,33 +115,34 @@ public class Main extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    jDesktopPane1 = new JDesktopPane();
-    lblCurrentUser = new JLabel();
-    lblClock = new JLabel();
-    lblDate = new JLabel();
-    mainMenuBar = new JMenuBar();
-    fileMenu = new JMenu();
-    employeesListMenuItem = new JMenuItem();
-    departmentsMenuItem = new JMenuItem();
-    positionsMenuItem = new JMenuItem();
-    employeesMenuItem = new JMenuItem();
-    jSeparator1 = new JPopupMenu.Separator();
-    exitMenuItem = new JMenuItem();
-    helpMenu = new JMenu();
-    aboutMenuItem = new JMenuItem();
+    jDesktopPane1 = new javax.swing.JDesktopPane();
+    lblCurrentUser = new javax.swing.JLabel();
+    lblClock = new javax.swing.JLabel();
+    lblDate = new javax.swing.JLabel();
+    mainMenuBar = new javax.swing.JMenuBar();
+    fileMenu = new javax.swing.JMenu();
+    employeesListMenuItem = new javax.swing.JMenuItem();
+    departmentsMenuItem = new javax.swing.JMenuItem();
+    positionsMenuItem = new javax.swing.JMenuItem();
+    employeesMenuItem = new javax.swing.JMenuItem();
+    jSeparator1 = new javax.swing.JPopupMenu.Separator();
+    exitMenuItem = new javax.swing.JMenuItem();
+    helpMenu = new javax.swing.JMenu();
+    aboutMenuItem = new javax.swing.JMenuItem();
 
-    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+    setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
     setTitle("Employee Management System");
-    addWindowListener(new WindowAdapter() {
-      public void windowClosing(WindowEvent evt) {
+    setUndecorated(true);
+    addWindowListener(new java.awt.event.WindowAdapter() {
+      public void windowClosing(java.awt.event.WindowEvent evt) {
         formWindowClosing(evt);
       }
-      public void windowOpened(WindowEvent evt) {
+      public void windowOpened(java.awt.event.WindowEvent evt) {
         formWindowOpened(evt);
       }
     });
 
-    jDesktopPane1.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+    jDesktopPane1.setDragMode(javax.swing.JDesktopPane.OUTLINE_DRAG_MODE);
 
     lblCurrentUser.setText("Welcome, User");
 
@@ -160,67 +150,69 @@ public class Main extends javax.swing.JFrame {
 
     lblDate.setText("System Date:");
 
-    jDesktopPane1.setLayer(lblCurrentUser, JLayeredPane.DEFAULT_LAYER);
-    jDesktopPane1.setLayer(lblClock, JLayeredPane.DEFAULT_LAYER);
-    jDesktopPane1.setLayer(lblDate, JLayeredPane.DEFAULT_LAYER);
+    jDesktopPane1.setLayer(lblCurrentUser, javax.swing.JLayeredPane.DEFAULT_LAYER);
+    jDesktopPane1.setLayer(lblClock, javax.swing.JLayeredPane.DEFAULT_LAYER);
+    jDesktopPane1.setLayer(lblDate, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-    GroupLayout jDesktopPane1Layout = new GroupLayout(jDesktopPane1);
+    javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
     jDesktopPane1.setLayout(jDesktopPane1Layout);
-    jDesktopPane1Layout.setHorizontalGroup(jDesktopPane1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+    jDesktopPane1Layout.setHorizontalGroup(
+      jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(jDesktopPane1Layout.createSequentialGroup()
         .addGap(23, 23, 23)
-        .addGroup(jDesktopPane1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(jDesktopPane1Layout.createSequentialGroup()
             .addComponent(lblCurrentUser)
             .addContainerGap(819, Short.MAX_VALUE))
           .addGroup(jDesktopPane1Layout.createSequentialGroup()
             .addComponent(lblClock)
-            .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(lblDate)
             .addGap(23, 23, 23))))
     );
-    jDesktopPane1Layout.setVerticalGroup(jDesktopPane1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+    jDesktopPane1Layout.setVerticalGroup(
+      jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(jDesktopPane1Layout.createSequentialGroup()
         .addGap(30, 30, 30)
         .addComponent(lblCurrentUser)
-        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 482, Short.MAX_VALUE)
-        .addGroup(jDesktopPane1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 482, Short.MAX_VALUE)
+        .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
           .addComponent(lblClock)
           .addComponent(lblDate))
         .addGap(44, 44, 44))
     );
 
-    getContentPane().add(jDesktopPane1, BorderLayout.CENTER);
+    getContentPane().add(jDesktopPane1, java.awt.BorderLayout.CENTER);
 
     fileMenu.setText("File");
 
     employeesListMenuItem.setText("List of Employees");
-    employeesListMenuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
+    employeesListMenuItem.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
         employeesListMenuItemActionPerformed(evt);
       }
     });
     fileMenu.add(employeesListMenuItem);
 
     departmentsMenuItem.setText("Departments");
-    departmentsMenuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
+    departmentsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
         departmentsMenuItemActionPerformed(evt);
       }
     });
     fileMenu.add(departmentsMenuItem);
 
     positionsMenuItem.setText("Positions");
-    positionsMenuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
+    positionsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
         positionsMenuItemActionPerformed(evt);
       }
     });
     fileMenu.add(positionsMenuItem);
 
     employeesMenuItem.setText("Employees");
-    employeesMenuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
+    employeesMenuItem.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
         employeesMenuItemActionPerformed(evt);
       }
     });
@@ -228,8 +220,8 @@ public class Main extends javax.swing.JFrame {
     fileMenu.add(jSeparator1);
 
     exitMenuItem.setText("Exit");
-    exitMenuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
+    exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
         exitMenuItemActionPerformed(evt);
       }
     });
@@ -240,8 +232,8 @@ public class Main extends javax.swing.JFrame {
     helpMenu.setText("Help");
 
     aboutMenuItem.setText("About");
-    aboutMenuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent evt) {
+    aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
         aboutMenuItemActionPerformed(evt);
       }
     });
@@ -256,7 +248,57 @@ public class Main extends javax.swing.JFrame {
   }// </editor-fold>//GEN-END:initComponents
 
   private void employeesListMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_employeesListMenuItemActionPerformed
-    // TODO add your handling code here:
+    if (listFrame == null) {
+      listFrame = new List();
+
+      Dimension desktopSize = jDesktopPane1.getSize();
+      Dimension internalFrameSize = listFrame.getSize();
+
+      listFrame.setLocation(
+        (desktopSize.width - internalFrameSize.width) / 2,
+        (desktopSize.height - internalFrameSize.height) / 2
+      );
+
+      listFrame.toFront();
+      listFrame.repaint();
+      
+      jDesktopPane1.add(listFrame);
+    }
+    else {
+      if (listFrame.isIcon()) {
+        try {
+          
+          Dimension desktopSize = jDesktopPane1.getSize();
+          Dimension internalFrameSize = listFrame.getSize();
+
+          listFrame.setLocation(
+            (desktopSize.width - internalFrameSize.width) / 2,
+            (desktopSize.height - internalFrameSize.height) / 2
+          );
+          
+          listFrame.toFront();
+          listFrame.repaint();
+          
+          listFrame.setIcon(false);
+        } catch (PropertyVetoException ex) {
+          Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+      }
+      else if (!listFrame.isVisible()) {
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension internalFrameSize = listFrame.getSize();
+
+        listFrame.setLocation(
+          (desktopSize.width - internalFrameSize.width) / 2,
+          (desktopSize.height - internalFrameSize.height) / 2
+        );
+        
+        listFrame.toFront();
+        listFrame.repaint();
+        
+        listFrame.setVisible(true);
+      }
+    }
   }//GEN-LAST:event_employeesListMenuItemActionPerformed
 
   private void positionsMenuItemActionPerformed(ActionEvent evt) {//GEN-FIRST:event_positionsMenuItemActionPerformed
@@ -515,19 +557,19 @@ public class Main extends javax.swing.JFrame {
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  JMenuItem aboutMenuItem;
-  JMenuItem departmentsMenuItem;
-  JMenuItem employeesListMenuItem;
-  JMenuItem employeesMenuItem;
-  JMenuItem exitMenuItem;
-  JMenu fileMenu;
-  JMenu helpMenu;
-  JDesktopPane jDesktopPane1;
-  JPopupMenu.Separator jSeparator1;
-  JLabel lblClock;
-  JLabel lblCurrentUser;
-  JLabel lblDate;
-  JMenuBar mainMenuBar;
-  JMenuItem positionsMenuItem;
+  javax.swing.JMenuItem aboutMenuItem;
+  javax.swing.JMenuItem departmentsMenuItem;
+  javax.swing.JMenuItem employeesListMenuItem;
+  javax.swing.JMenuItem employeesMenuItem;
+  javax.swing.JMenuItem exitMenuItem;
+  javax.swing.JMenu fileMenu;
+  javax.swing.JMenu helpMenu;
+  javax.swing.JDesktopPane jDesktopPane1;
+  javax.swing.JPopupMenu.Separator jSeparator1;
+  javax.swing.JLabel lblClock;
+  javax.swing.JLabel lblCurrentUser;
+  javax.swing.JLabel lblDate;
+  javax.swing.JMenuBar mainMenuBar;
+  javax.swing.JMenuItem positionsMenuItem;
   // End of variables declaration//GEN-END:variables
 }
