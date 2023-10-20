@@ -144,10 +144,9 @@ public class Login extends javax.swing.JFrame {
     // verify the login with the database
     boolean isLoginOK = di.loginFacade().verifyLogin(username, password);
     
-//    if (username.equals(App.userAccount.getUsername()) && password.equals(App.userAccount.getPassword())) {
     if (isLoginOK) {      
       
-      App.setCurrentRole("user");
+//      App.setCurrentRole("user");
       EventQueue.invokeLater(() -> {
           new Main().setVisible(true);
           dispose();

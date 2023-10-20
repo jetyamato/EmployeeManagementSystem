@@ -24,8 +24,7 @@
 package EmployeeManagementSystem;
 
 import java.awt.EventQueue;
-import Forms.Main;
-import Forms.Login;
+import Forms.SplashScreen;
 
 /**
  *
@@ -34,7 +33,7 @@ import Forms.Login;
 public class App {
   
   private static String currentUser = "Joseph";
-  private static String currentRole;
+  private static String currentRole = "admin";
   
   public static String getCurrentUser() {
     return currentUser;
@@ -86,10 +85,10 @@ public class App {
     } catch (javax.swing.UnsupportedLookAndFeelException ex) {
       java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
-    
+
     EventQueue.invokeLater(new Runnable() {
       public void run() {
-        new Login().setVisible(true);
+        new SplashScreen().setVisible(true);
       }
     });
     
