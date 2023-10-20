@@ -51,10 +51,11 @@ import com.toedter.calendar.JDateChooser;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
 import EmployeeManagementSystem.DependencyInjector;
+import java.awt.Color;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -62,9 +63,10 @@ import EmployeeManagementSystem.DependencyInjector;
  */
 public final class Employees extends JInternalFrame {
 
-  private final ArrayList<Data.Objects.Employees> employeesList = DependencyInjector.getInstance().getEmployeesList();
-  private final ArrayList<Data.Objects.Departments> departmentsList = DependencyInjector.getInstance().getDepartmentsList();
-  private final ArrayList<Data.Objects.Positions> positionsList = DependencyInjector.getInstance().getPositionsList();
+  private final DependencyInjector di = DependencyInjector.getInstance();
+  private ArrayList<Data.Objects.Employees> employeesList = di.employeesFacade().getEmployeesList();
+  private ArrayList<Data.Objects.Departments> departmentsList = di.departmentsFacade().getDepartmentsList();
+  private ArrayList<Data.Objects.Positions> positionsList = di.positionsFacade().getPositionsList();
   private boolean inEditMode = false;
   private Data.Objects.Employees employeeToEdit;
   
@@ -82,13 +84,6 @@ public final class Employees extends JInternalFrame {
     birthdayPicker.getJCalendar().setWeekOfYearVisible(false);
     birthdayPicker.setFont(new Font("Tahoma", Font.BOLD, 12));
     
-    for (Data.Objects.Departments p : this.departmentsList) {
-      cboDepartment.addItem(p.getDepartmentName());
-    }
-    
-    for (Data.Objects.Positions p : this.positionsList) {
-      cboPosition.addItem(p.getPositionName());
-    }
   }
 
   /**
@@ -245,13 +240,11 @@ public final class Employees extends JInternalFrame {
     jLabel6.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
     jLabel6.setText("Department:");
 
-    cboDepartment.setModel(new DefaultComboBoxModel<>(new String[] { "---Select Department---" }));
     cboDepartment.setEnabled(false);
 
     jLabel7.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
     jLabel7.setText("Position:");
 
-    cboPosition.setModel(new DefaultComboBoxModel<>(new String[] { "---Select Position---" }));
     cboPosition.setEnabled(false);
 
     GroupLayout layout = new GroupLayout(getContentPane());
@@ -402,10 +395,26 @@ public final class Employees extends JInternalFrame {
         
         txtContactNumber.setText(employeeToEdit.getContactNumber());
         txtContactNumber.setEnabled(true);
-        cboDepartment.setSelectedIndex(employeeToEdit.getDepartmentId());
-        cboDepartment.setEnabled(true);
-        cboPosition.setSelectedIndex(employeeToEdit.getPositionId());
-        cboPosition.setEnabled(true);
+        
+        for (int a = 0; a < cboDepartment.getItemCount(); a++) {
+          Item currentItem = cboDepartment.getItemAt(a);
+          
+          if (currentItem.getId() == employeeToEdit.getDepartmentId()) {
+            cboDepartment.setSelectedItem(currentItem);
+            cboDepartment.setEnabled(true);
+            break;
+          }
+        }
+        
+        for (int a = 0; a < cboPosition.getItemCount(); a++) {
+          Item currentItem = cboPosition.getItemAt(a);
+          
+          if (currentItem.getId() == employeeToEdit.getPositionId()) {
+            cboPosition.setSelectedItem(currentItem);
+            cboPosition.setEnabled(true);
+            break;
+          }
+        }
         
         btnAddOrEdit.setEnabled(false);
         btnSave.setEnabled(true);
@@ -422,7 +431,9 @@ public final class Employees extends JInternalFrame {
   }//GEN-LAST:event_btnCancelActionPerformed
 
   private void btnExitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-    dispose();
+    resetTheForm();
+    refreshTableContents();
+    setVisible(false);
   }//GEN-LAST:event_btnExitActionPerformed
 
   private void btnSaveActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -432,8 +443,12 @@ public final class Employees extends JInternalFrame {
     String lastName = txtLastName.getText();
     String firstName = txtFirstName.getText();
     String contactNumber = txtContactNumber.getText();
-    int departmentId = cboDepartment.getSelectedIndex();
-    int positionId = cboPosition.getSelectedIndex();
+    
+    Item selectedDepartment = (Item)cboDepartment.getSelectedItem();
+    int departmentId = selectedDepartment.getId();
+    
+    Item selectedPosition = (Item)cboPosition.getSelectedItem();
+    int positionId = selectedPosition.getId();
         
     ArrayList<String> errors = new ArrayList();
     
@@ -483,6 +498,9 @@ public final class Employees extends JInternalFrame {
             break;
           }
         }
+        
+        di.employeesFacade().save(employeeToEdit, false);
+        
       } else {
         Data.Objects.Employees newEmployee = new Data.Objects.Employees(
           employeesList.size() + 1,
@@ -496,6 +514,8 @@ public final class Employees extends JInternalFrame {
         );
 
         employeesList.add(newEmployee);
+        
+        di.employeesFacade().save(newEmployee, true);
       }
       
       resetTheForm();
@@ -520,7 +540,7 @@ public final class Employees extends JInternalFrame {
         }
       }
         
-      this.employeesList.remove(employeeToDelete);
+      di.employeesFacade().delete(employeeToDelete);
 
       resetTheForm();
       refreshTableContents();
@@ -542,8 +562,8 @@ public final class Employees extends JInternalFrame {
   JButton btnDelete;
   JButton btnExit;
   JButton btnSave;
-  JComboBox<String> cboDepartment;
-  JComboBox<String> cboPosition;
+  JComboBox<Item> cboDepartment;
+  JComboBox<Item> cboPosition;
   JLabel jLabel1;
   JLabel jLabel2;
   JLabel jLabel3;
@@ -560,7 +580,29 @@ public final class Employees extends JInternalFrame {
   JTextField txtLastName;
   // End of variables declaration//GEN-END:variables
 
+  private void refreshData() {
+    departmentsList = di.departmentsFacade().getDepartmentsList();
+    positionsList = di.positionsFacade().getPositionsList();
+    employeesList = di.employeesFacade().getEmployeesList();
+    
+    cboDepartment.removeAllItems();
+    cboDepartment.addItem(new Item(0, "---Select Department---"));
+    for (Data.Objects.Departments p : this.departmentsList) {
+      Item itemFromDb = new Item(p.getId(), p.getDepartmentName());
+      cboDepartment.addItem(itemFromDb);
+    }
+    
+    cboPosition.removeAllItems();
+    cboPosition.addItem(new Item(0, "---Select Position---"));
+    for (Data.Objects.Positions p : this.positionsList) {
+      Item itemFromDb = new Item(p.getId(), p.getPositionName());
+      cboPosition.addItem(itemFromDb);
+    }
+  }
+    
   private void refreshTableContents() {
+    refreshData();
+    
     DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
     
     model.setRowCount(0);
@@ -647,8 +689,8 @@ public final class Employees extends JInternalFrame {
   }
   
   private void adjustColumnWidths() {
-//    JTableHeader headers = jTable1.getTableHeader();
-//    headers.setForeground(Color.BLUE);
+    JTableHeader headers = jTable1.getTableHeader();
+    headers.setForeground(Color.BLUE);
     
     TableColumn idColumn = jTable1.getColumnModel().getColumn(0);
     idColumn.setPreferredWidth(50);
@@ -683,4 +725,23 @@ public final class Employees extends JInternalFrame {
   private Date convertToDate(LocalDate dateToConvert) {
     return Date.from(dateToConvert.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
   }
+}
+
+class Item {
+  private int id;
+  private String name;
+  
+  Item(int _id, String _name) {
+    id = _id;
+    name = _name;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String toString() {
+    return name;
+  }
+  
 }

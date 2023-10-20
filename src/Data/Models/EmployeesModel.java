@@ -30,9 +30,9 @@ import java.sql.ResultSet;
  *
  * @author josep
  */
-public class PositionsModel extends Model {
+public class EmployeesModel extends Model {
 
-  public PositionsModel(String _tableName, Database _database) {
+  public EmployeesModel(String _tableName, Database _database) {
     super(_tableName, _database);
   }
 

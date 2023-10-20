@@ -44,6 +44,7 @@ import EmployeeManagementSystem.*;
 public class Login extends javax.swing.JFrame {
 
   private final DependencyInjector di = DependencyInjector.getInstance();
+  
   /**
    * Creates new form Login
    */

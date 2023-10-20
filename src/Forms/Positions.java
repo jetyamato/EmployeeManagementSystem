@@ -47,6 +47,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import EmployeeManagementSystem.DependencyInjector;
+import java.awt.Color;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -54,7 +56,8 @@ import EmployeeManagementSystem.DependencyInjector;
  */
 public final class Positions extends JInternalFrame {
 
-  private final ArrayList<Data.Objects.Positions> positionsList = DependencyInjector.getInstance().getPositionsList();
+  private final DependencyInjector di = DependencyInjector.getInstance();
+  private ArrayList<Data.Objects.Positions> positionsList = di.positionsFacade().getPositionsList();
   private boolean inEditMode = false;
   private Data.Objects.Positions positionToEdit;
   
@@ -291,7 +294,7 @@ public final class Positions extends JInternalFrame {
   private void btnExitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
     resetTheForm();
     refreshTableContents();
-    dispose();
+    setVisible(false);
   }//GEN-LAST:event_btnExitActionPerformed
 
   private void btnSaveActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -310,6 +313,9 @@ public final class Positions extends JInternalFrame {
             break;
           }
         }
+        
+        di.positionsFacade().save(positionToEdit, false);
+        
       } else {
         Data.Objects.Positions newPosition = new Data.Objects.Positions(
           positionsList.size() + 1,
@@ -317,6 +323,8 @@ public final class Positions extends JInternalFrame {
         );
 
         positionsList.add(newPosition);
+        
+        di.positionsFacade().save(newPosition, true);
       }
       
       resetTheForm();
@@ -341,7 +349,7 @@ public final class Positions extends JInternalFrame {
         }
       }
         
-      this.positionsList.remove(positionToDelete);
+      di.positionsFacade().delete(positionToDelete);
 
       resetTheForm();
       refreshTableContents();
@@ -369,7 +377,13 @@ public final class Positions extends JInternalFrame {
   JTextField txtPosition;
   // End of variables declaration//GEN-END:variables
 
+  private void refreshData() {
+    positionsList = di.positionsFacade().getPositionsList();
+  }
+  
   private void refreshTableContents() {
+    refreshData();
+    
     DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
     
     model.setRowCount(0);
@@ -424,8 +438,8 @@ public final class Positions extends JInternalFrame {
   }
   
   private void adjustColumnWidths() {
-//    JTableHeader headers = jTable1.getTableHeader();
-//    headers.setForeground(Color.BLUE);
+    JTableHeader headers = jTable1.getTableHeader();
+    headers.setForeground(Color.BLUE);
     
     TableColumn idColumn = jTable1.getColumnModel().getColumn(0);
     idColumn.setPreferredWidth(50);

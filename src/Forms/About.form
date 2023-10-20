@@ -63,7 +63,7 @@
             <Property name="columns" type="int" value="20"/>
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="Employee Management System&#xa;&#xa;This is a software project created as a partial fulfillment of the requirements for the Java Programming NCIII course accredited by TESDA, as well as the On the Job Training conducted by the Training Center for Skills and Development Inc.&#xa;&#xa;Technologies used:&#xa;Apache NetBeans IDE 19&#xa;Laragon 6.0&#xa;MySQL 8.0.30&#xa;Java Development Kit 21&#xa;Git for Windows 2.41.0&#xa;&#xa;Copyright &#xa9; 2023 by Joseph Emmanuel F. Tamayo&#xa;License granted under the MIT License"/>
+            <Property name="text" type="java.lang.String" value="Employee Management System&#xa;&#xa;This is a software project created as a partial fulfillment of the requirements for the Java Programming NCIII course accredited by TESDA, as well as for the On the Job Training conducted by the Training Center for Skills and Development Inc.&#xa;&#xa;Technologies used:&#xa;Apache NetBeans IDE 19&#xa;MySQL Workbench 8.0.34&#xa;MySQL Community Server 8.0.34&#xa;Java Development Kit 21&#xa;Git for Windows 2.41.0&#xa;&#xa;Copyright &#xa9; 2023 by Joseph Emmanuel F. Tamayo, licensed under the MIT License.&#xa;For certain code used in this project that are not authored by me, all licenses are upheld and all rights are reserved for the respective authors."/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
         </Component>

@@ -27,25 +27,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Data.Models.PositionsModel;
-import Data.Objects.Positions;
+import Data.Models.EmployeesModel;
+import Data.Objects.Employees;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
  * @author josep
  */
-public class PositionsFacade {
+public class EmployeesFacade {
   
-  private final PositionsModel positionsModel;
+  private final EmployeesModel employeesModel;
 
-  public PositionsFacade(PositionsModel _positionsModel) {
-    this.positionsModel = _positionsModel;
+  public EmployeesFacade(EmployeesModel _employeesModel) {
+    this.employeesModel = _employeesModel;
   }
   
-  public ArrayList<Positions> getPositionsList() {
-    ArrayList<Positions> positionsList = new ArrayList();
+  public ArrayList<Employees> getEmployeesList() {
+    ArrayList<Employees> employeesList = new ArrayList();
     
-    try (ResultSet rs = positionsModel.getAll()) {
+    try (ResultSet rs = employeesModel.getAll()) {
       int size = 0;
       
       if (rs != null) {
@@ -56,10 +57,16 @@ public class PositionsFacade {
       
       if (size > 0) {
         while (rs.next()) {
-          positionsList.add(
-            new Positions(
-          rs.getInt(1),
-   rs.getString(2)
+          employeesList.add(
+            new Employees(
+              rs.getInt(1),
+              rs.getString(2),
+              rs.getString(3),
+              rs.getString(4),
+              rs.getDate(5).toLocalDate(),
+              rs.getInt(6),
+              rs.getInt(7),
+              rs.getString(8)
             )
           );
         }
@@ -68,20 +75,27 @@ public class PositionsFacade {
       System.out.println(ex.getMessage());
     }
     
-    return positionsList;
+    return employeesList;
   }
   
-  public void save(Positions _position, boolean toCreate) {
+  public void save(Employees _employee, boolean toCreate) {
     Object[][] fields_and_values = {
-      {"position_name", _position.getPositionName(), "string"}
+      {"employee_id", _employee.getEmployeeId(), "string"},
+      {"lastname", _employee.getLastName(), "string"},
+      {"firstname", _employee.getFirstName(), "string"},
+      {"date_of_birth", _employee.getDateOfBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), "string"},
+      {"department_id", _employee.getDepartmentId(), "int"},
+      {"position_id", _employee.getPositionId(), "int"},
+      {"contact_number", _employee.getContactNumber(), "string"}
     };
     
-    if (toCreate) positionsModel.insertEntry(fields_and_values);
-    else positionsModel.updateEntry(_position.getId(), fields_and_values);
+    if (toCreate) employeesModel.insertEntry(fields_and_values);
+    else employeesModel.updateEntry(_employee.getId(), fields_and_values);
   }
   
-  public void delete(Positions _position) {
+  public void delete(Employees _employee) {
     
-    positionsModel.deleteEntry(_position.getId());
+    employeesModel.deleteEntry(_employee.getId());
   }
+  
 }

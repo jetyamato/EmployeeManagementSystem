@@ -65,7 +65,7 @@ public final class About extends JInternalFrame {
     jTextArea1.setColumns(20);
     jTextArea1.setLineWrap(true);
     jTextArea1.setRows(5);
-    jTextArea1.setText("Employee Management System\n\nThis is a software project created as a partial fulfillment of the requirements for the Java Programming NCIII course accredited by TESDA, as well as the On the Job Training conducted by the Training Center for Skills and Development Inc.\n\nTechnologies used:\nApache NetBeans IDE 19\nLaragon 6.0\nMySQL 8.0.30\nJava Development Kit 21\nGit for Windows 2.41.0\n\nCopyright © 2023 by Joseph Emmanuel F. Tamayo\nLicense granted under the MIT License");
+    jTextArea1.setText("Employee Management System\n\nThis is a software project created as a partial fulfillment of the requirements for the Java Programming NCIII course accredited by TESDA, as well as for the On the Job Training conducted by the Training Center for Skills and Development Inc.\n\nTechnologies used:\nApache NetBeans IDE 19\nMySQL Workbench 8.0.34\nMySQL Community Server 8.0.34\nJava Development Kit 21\nGit for Windows 2.41.0\n\nCopyright © 2023 by Joseph Emmanuel F. Tamayo, licensed under the MIT License.\nFor certain code used in this project that are not authored by me, all licenses are upheld and all rights are reserved for the respective authors.");
     jTextArea1.setWrapStyleWord(true);
     jScrollPane1.setViewportView(jTextArea1);
 

@@ -27,25 +27,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Data.Models.PositionsModel;
-import Data.Objects.Positions;
+import Data.Models.DepartmentsModel;
+import Data.Objects.Departments;
 
 /**
  *
  * @author josep
  */
-public class PositionsFacade {
+public class DepartmentsFacade {
   
-  private final PositionsModel positionsModel;
+  private final DepartmentsModel departmentsModel;
 
-  public PositionsFacade(PositionsModel _positionsModel) {
-    this.positionsModel = _positionsModel;
+  public DepartmentsFacade(DepartmentsModel _departmentsModel) {
+    this.departmentsModel = _departmentsModel;
   }
   
-  public ArrayList<Positions> getPositionsList() {
-    ArrayList<Positions> positionsList = new ArrayList();
+  public ArrayList<Departments> getDepartmentsList() {
+    ArrayList<Departments> departmentsList = new ArrayList();
     
-    try (ResultSet rs = positionsModel.getAll()) {
+    try (ResultSet rs = departmentsModel.getAll()) {
       int size = 0;
       
       if (rs != null) {
@@ -56,10 +56,11 @@ public class PositionsFacade {
       
       if (size > 0) {
         while (rs.next()) {
-          positionsList.add(
-            new Positions(
-          rs.getInt(1),
-   rs.getString(2)
+          departmentsList.add(
+            new Departments(
+              rs.getInt(1),
+     rs.getString(2),
+     rs.getString(3)
             )
           );
         }
@@ -68,20 +69,21 @@ public class PositionsFacade {
       System.out.println(ex.getMessage());
     }
     
-    return positionsList;
+    return departmentsList;
   }
   
-  public void save(Positions _position, boolean toCreate) {
+  public void save(Departments _department, boolean toCreate) {
     Object[][] fields_and_values = {
-      {"position_name", _position.getPositionName(), "string"}
+      {"department_code", _department.getDepartmentCode(), "string"},
+      {"department_name", _department.getDepartmentName(), "string"},
     };
     
-    if (toCreate) positionsModel.insertEntry(fields_and_values);
-    else positionsModel.updateEntry(_position.getId(), fields_and_values);
+    if (toCreate) departmentsModel.insertEntry(fields_and_values);
+    else departmentsModel.updateEntry(_department.getId(), fields_and_values);
   }
   
-  public void delete(Positions _position) {
+  public void delete(Departments _department) {
     
-    positionsModel.deleteEntry(_position.getId());
+    departmentsModel.deleteEntry(_department.getId());
   }
 }

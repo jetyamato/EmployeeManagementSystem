@@ -56,7 +56,8 @@ import EmployeeManagementSystem.DependencyInjector;
  */
 public final class Departments extends JInternalFrame {
 
-  private final ArrayList<Data.Objects.Departments> departmentsList = DependencyInjector.getInstance().getDepartmentsList();
+  private final DependencyInjector di = DependencyInjector.getInstance();
+  private ArrayList<Data.Objects.Departments> departmentsList = di.departmentsFacade().getDepartmentsList();
   private boolean inEditMode = false;
   private Data.Objects.Departments departmentToEdit;
   
@@ -305,7 +306,9 @@ public final class Departments extends JInternalFrame {
   }//GEN-LAST:event_btnCancelActionPerformed
 
   private void btnExitActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
-    dispose();
+    resetTheForm();
+    refreshTableContents();
+    setVisible(false);
   }//GEN-LAST:event_btnExitActionPerformed
 
   private void btnSaveActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -340,6 +343,9 @@ public final class Departments extends JInternalFrame {
             break;
           }
         }
+        
+        di.departmentsFacade().save(departmentToEdit, false);
+        
       } else {
         Data.Objects.Departments newDepartment = new Data.Objects.Departments(
           departmentsList.size() + 1,
@@ -348,6 +354,8 @@ public final class Departments extends JInternalFrame {
         );
 
         departmentsList.add(newDepartment);
+        
+        di.departmentsFacade().save(newDepartment, true);
       }
       
       resetTheForm();
@@ -372,7 +380,7 @@ public final class Departments extends JInternalFrame {
         }
       }
         
-      this.departmentsList.remove(departmentToDelete);
+      di.departmentsFacade().delete(departmentToDelete);
 
       resetTheForm();
       refreshTableContents();
@@ -402,7 +410,13 @@ public final class Departments extends JInternalFrame {
   JTextField txtDeptName;
   // End of variables declaration//GEN-END:variables
 
+  private void refreshData() {
+    departmentsList = di.departmentsFacade().getDepartmentsList();
+  }
+  
   private void refreshTableContents() {
+    refreshData();
+    
     DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
     
     model.setRowCount(0);
@@ -461,8 +475,8 @@ public final class Departments extends JInternalFrame {
   
   private void adjustColumnWidths() {
     
-//    JTableHeader headers = jTable1.getTableHeader();
-//    headers.setForeground(Color.BLUE);
+    JTableHeader headers = jTable1.getTableHeader();
+    headers.setForeground(Color.BLUE);
     
     TableColumn idColumn = jTable1.getColumnModel().getColumn(0);
     idColumn.setPreferredWidth(50);

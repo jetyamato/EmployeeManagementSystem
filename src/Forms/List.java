@@ -25,7 +25,6 @@ package Forms;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.GroupLayout;
 import javax.swing.JInternalFrame;
@@ -41,14 +40,14 @@ import javax.swing.event.InternalFrameListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import EmployeeManagementSystem.DependencyInjector;
+import java.awt.Color;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -58,9 +57,10 @@ import javax.swing.table.TableRowSorter;
  */
 public final class List extends JInternalFrame {
 
-  private final ArrayList<Data.Objects.Employees> employeesList = DependencyInjector.getInstance().getEmployeesList();
-  private final ArrayList<Data.Objects.Departments> departmentsList = DependencyInjector.getInstance().getDepartmentsList();
-  private final ArrayList<Data.Objects.Positions> positionsList = DependencyInjector.getInstance().getPositionsList();
+  private final DependencyInjector di = DependencyInjector.getInstance();
+  private ArrayList<Data.Objects.Employees> employeesList = di.employeesFacade().getEmployeesList();
+  private ArrayList<Data.Objects.Departments> departmentsList = di.departmentsFacade().getDepartmentsList();
+  private ArrayList<Data.Objects.Positions> positionsList = di.positionsFacade().getPositionsList();
   
   /**
    * Creates new form Positions
@@ -223,7 +223,15 @@ public final class List extends JInternalFrame {
   JTextField txtSearch;
   // End of variables declaration//GEN-END:variables
 
+  private void refreshData() {
+    departmentsList = di.departmentsFacade().getDepartmentsList();
+    positionsList = di.positionsFacade().getPositionsList();
+    employeesList = di.employeesFacade().getEmployeesList();
+  }
+  
   private void refreshTableContents() {
+    refreshData();
+    
     DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
     
     model.setRowCount(0);
@@ -269,8 +277,8 @@ public final class List extends JInternalFrame {
   }
   
   private void adjustColumnWidths() {
-//    JTableHeader headers = jTable1.getTableHeader();
-//    headers.setForeground(Color.BLUE);
+    JTableHeader headers = jTable1.getTableHeader();
+    headers.setForeground(Color.BLUE);
     
     TableColumn idColumn = jTable1.getColumnModel().getColumn(0);
     idColumn.setPreferredWidth(50);
@@ -288,18 +296,11 @@ public final class List extends JInternalFrame {
     contactNumberColumn.setPreferredWidth(100);
     
     TableColumn departmentColumn = jTable1.getColumnModel().getColumn(5);
-    departmentColumn.setPreferredWidth(300);
+    departmentColumn.setPreferredWidth(200);
     
     TableColumn positionColumn = jTable1.getColumnModel().getColumn(6);
     positionColumn.setPreferredWidth(100);
     
   }
 
-  private LocalDate convertToLocalDate(Date dateToConvert) {
-    return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-  }
-  
-  private Date convertToDate(LocalDate dateToConvert) {
-    return Date.from(dateToConvert.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-  }
 }

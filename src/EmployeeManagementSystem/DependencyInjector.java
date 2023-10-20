@@ -23,27 +23,26 @@
  */
 package EmployeeManagementSystem;
 
-import Data.Objects.Departments;
-import Data.Objects.Employees;
-import Data.Objects.Positions;
-import Facades.LoginFacade;
-import java.util.ArrayList;
+import Data.Objects.*;
+import Data.Source.*;
+import Data.Models.*;
+import Facades.*;
 
 /**
  *
  * @author josep
  */
-public class DependencyInjector {
-  private final ArrayList<Data.Objects.Departments> departmentsList;
-  private final ArrayList<Data.Objects.Positions> positionsList;
-  private final ArrayList<Data.Objects.Employees> employeesList;
+public final class DependencyInjector {
   private final LoginFacade loginFacade;
+  private final PositionsFacade positionsFacade;
+  private final DepartmentsFacade departmentsFacade;
+  private final EmployeesFacade employeesFacade;
   
   private DependencyInjector() {
-    departmentsList = Data.Mock.Database.departments();
-    positionsList = Data.Mock.Database.positions();
-    employeesList = Data.Mock.Database.employees();
-    loginFacade = LoginFacade.getInstance();
+    loginFacade = new LoginFacade(new LoginModel("users", database()));
+    positionsFacade = new PositionsFacade(new PositionsModel("positions", database()));
+    departmentsFacade = new DepartmentsFacade(new DepartmentsModel("departments", database()));
+    employeesFacade = new EmployeesFacade(new EmployeesModel("employees", database()));
   }
   
   private static class DependencyInjectorSingleton {
@@ -54,20 +53,29 @@ public class DependencyInjector {
     return DependencyInjectorSingleton.INSTANCE;
   }
 
-  public ArrayList<Departments> getDepartmentsList() {
-    return departmentsList;
-  }
-
-  public ArrayList<Positions> getPositionsList() {
-    return positionsList;
-  }
-
-  public ArrayList<Employees> getEmployeesList() {
-    return employeesList;
-  }
-
   public LoginFacade loginFacade() {
     return loginFacade;
   }
+
+  public PositionsFacade positionsFacade() {
+    return positionsFacade;
+  }
+
+  public DepartmentsFacade departmentsFacade() {
+    return departmentsFacade;
+  }
   
+  public EmployeesFacade employeesFacade() {
+    return employeesFacade;
+  }
+  
+  public Database database() {
+    return new Database(
+      new MySQLDatabaseConnector(
+        "jdbc:mysql://127.0.0.1:3308/employee_management_system",
+  "employee_management_system",
+  "!%IKe%S+nJP}UfQ"
+      )
+    );
+  }
 }

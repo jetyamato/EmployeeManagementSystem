@@ -53,6 +53,9 @@ abstract class Model {
       Connection dbcon = database.connect();
       PreparedStatement ps = dbcon.prepareStatement( sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
       rs = ps.executeQuery();
+      
+      System.out.println(sql);
+
     } catch ( SQLException e ) {
       System.out.println( e.getMessage() );
     }
@@ -74,6 +77,9 @@ abstract class Model {
       Connection dbcon = database.connect();
       PreparedStatement ps = dbcon.prepareStatement( sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
       rs = ps.executeQuery();
+      
+      System.out.println(sql);
+
     } catch ( SQLException e ) {
       System.out.println( e.getMessage() );
     }
@@ -111,6 +117,9 @@ abstract class Model {
       }
       
       ps.executeUpdate();
+      
+      System.out.println(sql);
+      dbcon.close();
     } catch ( SQLException e ) {
       System.out.println( e.getMessage() );
     }
@@ -147,6 +156,9 @@ abstract class Model {
       ps.setInt(fields_and_values.length + 1, id);
       
       ps.executeUpdate();
+      
+      System.out.println(sql);
+      dbcon.close();
     } catch ( SQLException e ) {
       System.out.println( e.getMessage() );
     }
@@ -162,6 +174,9 @@ abstract class Model {
       ps.setInt(1, id);
       
       ps.executeUpdate();
+      
+      System.out.println(sql);
+      dbcon.close();
     } catch ( SQLException e ) {
       System.out.println( e.getMessage() );
     }

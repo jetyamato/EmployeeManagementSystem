@@ -30,20 +30,20 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import Data.Models.LoginModel;
+
 /**
  *
  * @author josep
  */
 public class LoginFacade {
   
-  private LoginFacade() {}
+  private final LoginModel loginModel;
+  private String currentUser;
+  private String currentRole;
   
-  private static class LoginFacadeSingleton {
-    private static final LoginFacade INSTANCE = new LoginFacade();
-  }
-  
-  public static LoginFacade getInstance() {
-    return LoginFacadeSingleton.INSTANCE;
+  public LoginFacade(LoginModel _loginModel) {
+    loginModel = _loginModel;
   }
   
   String getEncryptedPass(String _password) {
@@ -73,32 +73,50 @@ public class LoginFacade {
   public boolean verifyLogin(String _username, String _password) {
     _password = getEncryptedPass(_password);
     
-    String usernameFromDatabase = "admin", passwordFromDatabase = "e9974ccc3a56650996fe3736cf29d09485aee5424c558db2f678ccba7e77237c";
+    String usernameFromDatabase = "", passwordFromDatabase = "";
+    boolean loginOK = false;
     
-//    try (ResultSet rs = loginModel.getEntry(new String[][] { {"username", " = \"" + _username + "\""} })) {
-//      int size = 0;
-//      
-//      if (rs != null) {
-//        rs.last();
-//        size = rs.getRow();
-//        rs.beforeFirst();
-//      }
-//      
-//      if (size > 0) {
-//        while (rs.next()) {
-//          if (_username.equals(rs.getString(2))) {
-//            usernameFromDatabase = rs.getString(2);
-//            passwordFromDatabase = rs.getString(3);
-//          }
-//        }
-//      }
-//    } catch (SQLException ex) {
-//      System.out.println(ex.getMessage());
-//    }
-    
-    System.out.println("Encrypted Pass: " + _password);
-    System.out.println("Database Encrypted Pass: " + passwordFromDatabase);
-    
-    return _username.equals(usernameFromDatabase) && _password.equals(passwordFromDatabase);
+    try (ResultSet rs = loginModel.getEntry(new String[][] { {"username", " = \"" + _username + "\""} })) {
+      int size = 0;
+      
+      if (rs != null) {
+        rs.last();
+        size = rs.getRow();
+        rs.beforeFirst();
+      }
+      
+      if (size > 0) {
+        while (rs.next()) {
+          if (_username.equals(rs.getString(4))) {
+            usernameFromDatabase = rs.getString(4);
+            passwordFromDatabase = rs.getString(5);
+          }
+          
+          loginOK = _username.equals(usernameFromDatabase) && _password.equals(passwordFromDatabase);
+
+          if (loginOK) {
+            currentUser = rs.getString(4);
+            currentRole = rs.getString(6);
+          }
+        }
+      }
+      
+      System.out.println("Encrypted Pass: " + _password);
+      System.out.println("Database Encrypted Pass: " + passwordFromDatabase);
+      
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+
+    return loginOK;
   }
+
+  public String getCurrentUser() {
+    return currentUser;
+  }
+
+  public String getCurrentRole() {
+    return currentRole;
+  }
+  
 }

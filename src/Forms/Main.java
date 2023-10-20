@@ -23,6 +23,7 @@
  */
 package Forms;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -36,12 +37,11 @@ import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-
-import EmployeeManagementSystem.App;
-import java.awt.Color;
+import javax.swing.Timer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import javax.swing.Timer;
+
+import EmployeeManagementSystem.*;
 
 /**
  *
@@ -55,6 +55,7 @@ public class Main extends javax.swing.JFrame {
   private About aboutFrame;
   private List listFrame;
   private final Timer timer;
+  private final DependencyInjector di = DependencyInjector.getInstance();
   
   /**
    * Creates new form Main
@@ -509,9 +510,9 @@ public class Main extends javax.swing.JFrame {
   }//GEN-LAST:event_formWindowClosing
 
   private void formWindowOpened(WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-    lblCurrentUser.setText("Welcome, " + App.getCurrentUser());
+    lblCurrentUser.setText("Welcome, " + di.loginFacade().getCurrentUser());
     
-    if (App.getCurrentRole().equalsIgnoreCase("user")) {
+    if (di.loginFacade().getCurrentRole().equalsIgnoreCase("user")) {
       departmentsMenuItem.setEnabled(false);
       positionsMenuItem.setEnabled(false);
     }
