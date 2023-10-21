@@ -24,6 +24,7 @@
 package Data.Source;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
@@ -31,5 +32,5 @@ import java.sql.Connection;
  */
 public abstract class DatabaseConnector {
   
-  public abstract Connection connect();
+  public abstract Connection connect() throws ClassNotFoundException, SQLException;
 }

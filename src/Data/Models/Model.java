@@ -28,7 +28,6 @@ import Data.Objects.Database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  *
@@ -56,7 +55,7 @@ abstract class Model {
       
       System.out.println(sql);
 
-    } catch ( SQLException e ) {
+    } catch ( Exception e ) {
       System.out.println( e.getMessage() );
     }
     
@@ -80,7 +79,7 @@ abstract class Model {
       
       System.out.println(sql);
 
-    } catch ( SQLException e ) {
+    } catch ( Exception e ) {
       System.out.println( e.getMessage() );
     }
     return rs;
@@ -120,7 +119,7 @@ abstract class Model {
       
       System.out.println(sql);
       dbcon.close();
-    } catch ( SQLException e ) {
+    } catch ( Exception e ) {
       System.out.println( e.getMessage() );
     }
   }
@@ -159,7 +158,7 @@ abstract class Model {
       
       System.out.println(sql);
       dbcon.close();
-    } catch ( SQLException e ) {
+    } catch ( Exception e ) {
       System.out.println( e.getMessage() );
     }
   }
@@ -177,7 +176,7 @@ abstract class Model {
       
       System.out.println(sql);
       dbcon.close();
-    } catch ( SQLException e ) {
+    } catch ( Exception e ) {
       System.out.println( e.getMessage() );
     }
   }

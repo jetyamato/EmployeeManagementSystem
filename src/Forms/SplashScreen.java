@@ -33,6 +33,14 @@ import javax.swing.JProgressBar;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import EmployeeManagementSystem.DependencyInjector;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author josep
@@ -55,6 +63,7 @@ public class SplashScreen extends javax.swing.JFrame {
 
     jProgressBar1 = new JProgressBar();
     jLabel1 = new JLabel();
+    lblProgress = new JLabel();
 
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setUndecorated(true);
@@ -70,17 +79,26 @@ public class SplashScreen extends javax.swing.JFrame {
     jLabel1.setFont(new Font("Arial", 0, 24)); // NOI18N
     jLabel1.setText("LOADING");
 
+    lblProgress.setText("Loading...");
+
     GroupLayout layout = new GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
-        .addContainerGap()
-        .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+          .addGroup(layout.createSequentialGroup()
+            .addContainerGap()
+            .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+          .addGroup(layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+              .addGroup(layout.createSequentialGroup()
+                .addGap(147, 147, 147)
+                .addComponent(jLabel1))
+              .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblProgress)))
+            .addGap(0, 141, Short.MAX_VALUE)))
         .addContainerGap())
-      .addGroup(layout.createSequentialGroup()
-        .addGap(147, 147, 147)
-        .addComponent(jLabel1)
-        .addContainerGap(147, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
       .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -88,7 +106,9 @@ public class SplashScreen extends javax.swing.JFrame {
         .addComponent(jLabel1)
         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(jProgressBar1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        .addGap(134, 134, 134))
+        .addGap(112, 112, 112)
+        .addComponent(lblProgress)
+        .addContainerGap())
     );
 
     pack();
@@ -100,19 +120,133 @@ public class SplashScreen extends javax.swing.JFrame {
     new Thread(new Runnable() {
       
       public void run() {
-        for (int countUp = 0; countUp <= 100; countUp++) {
-          jProgressBar1.setValue(countUp);
 
-          if (countUp == 100) {
-            dispose();
-            EventQueue.invokeLater(new Runnable() {
-              public void run() {
-                new Login().setVisible(true);
-              }
-            });
+        // check if database exists = 20%
+        // check if users table exists = 40%
+        // check if departments table exists = 60%
+        // check if positions table exists = 80%
+        // check if employees table exists = 100%
+        
+        DependencyInjector di = DependencyInjector.getInstance();
+        
+        int countUp = 0;
+          
+        Data.Objects.Database test_database = di.test_database();
+        Connection dbcon = null;
+        
+        lblProgress.setText("Checking if database is found...");
+        try { dbcon = test_database.connect(); } catch (Exception ex) {
+          if (ex instanceof SQLException s && s.getSQLState().equalsIgnoreCase("08s01")) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Database not found.\nCheck your database setup and settings.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          } else {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
           }
-          try { Thread.sleep(50); } catch (InterruptedException ex) {}
         }
+
+        countUp += 20;
+        jProgressBar1.setValue(countUp);
+        try { Thread.sleep(500); } catch (InterruptedException ex) {}
+
+        lblProgress.setText("Checking if Users Table is found...");
+        try (
+          PreparedStatement ps = dbcon.prepareStatement(
+            "SELECT * FROM users",
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+               ResultSet.CONCUR_READ_ONLY
+          );
+        ) {
+          if (ps.execute()) {
+            countUp += 20;
+            jProgressBar1.setValue(countUp);
+            try { Thread.sleep(500); } catch (InterruptedException ex) {}
+          }
+        } catch (Exception ex) {
+          if (ex instanceof SQLException s && s.getSQLState().equalsIgnoreCase("42s02")) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Users Table not found.\nCheck your database setup and settings.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          } else {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          }
+        }
+          
+        lblProgress.setText("Checking if Departments Table is found...");
+        try (
+          PreparedStatement ps = dbcon.prepareStatement(
+            "SELECT * FROM departments",
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+               ResultSet.CONCUR_READ_ONLY
+          );
+        ) {
+          if (ps.execute()) {
+            countUp += 20;
+            jProgressBar1.setValue(countUp);
+            try { Thread.sleep(500); } catch (InterruptedException ex) {}
+          }
+        } catch (Exception ex) {
+          if (ex instanceof SQLException s && s.getSQLState().equalsIgnoreCase("42s02")) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Departments Table not found.\nCheck your database setup and settings.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          } else {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          }
+        }
+
+        lblProgress.setText("Checking if Positions Table is found...");
+        try (
+          PreparedStatement ps = dbcon.prepareStatement(
+            "SELECT * FROM positions",
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+               ResultSet.CONCUR_READ_ONLY
+          );
+        ) {
+          if (ps.execute()) {
+            countUp += 20;
+            jProgressBar1.setValue(countUp);
+            try { Thread.sleep(500); } catch (InterruptedException ex) {}
+          }
+        } catch (Exception ex) {
+          if (ex instanceof SQLException s && s.getSQLState().equalsIgnoreCase("42s02")) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Positions Table not found.\nCheck your database setup and settings.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          } else {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          }
+        }
+          
+        lblProgress.setText("Checking if Employees Table is found...");
+        try (
+          PreparedStatement ps = dbcon.prepareStatement(
+            "SELECT * FROM employees",
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+               ResultSet.CONCUR_READ_ONLY
+          );
+        ) {
+          if (ps.execute()) {
+            countUp += 20;
+            jProgressBar1.setValue(countUp);
+            try { Thread.sleep(500); } catch (InterruptedException ex) {}
+          }
+        } catch (Exception ex) {
+          if (ex instanceof SQLException s && s.getSQLState().equalsIgnoreCase("42s02")) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Employees Table not found.\nCheck your database setup and settings.", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          } else {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+          }
+        }
+
+        dispose();
+        EventQueue.invokeLater(new Runnable() {
+          public void run() {
+            new Login().setVisible(true);
+          }
+        });
       }
     }).start();
   }//GEN-LAST:event_formWindowOpened
@@ -155,5 +289,6 @@ public class SplashScreen extends javax.swing.JFrame {
   // Variables declaration - do not modify//GEN-BEGIN:variables
   public JLabel jLabel1;
   public JProgressBar jProgressBar1;
+  public JLabel lblProgress;
   // End of variables declaration//GEN-END:variables
 }

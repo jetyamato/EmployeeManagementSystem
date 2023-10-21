@@ -44,16 +44,16 @@ public class MySQLDatabaseConnector extends DatabaseConnector {
   }
   
   @Override
-  public Connection connect() {
+  public Connection connect() throws ClassNotFoundException, SQLException {
     Connection con = null;
     
-    try {
+//    try {
       Class.forName("com.mysql.cj.jdbc.Driver");
       con = DriverManager.getConnection(url, dbUsername, dbPassword);
       System.out.println( "Database connection succeeded." );
-    } catch (ClassNotFoundException | SQLException ex) {  
-      System.out.println(ex.getMessage());
-    }
+//    } catch (ClassNotFoundException | SQLException ex) {  
+//      System.out.println(ex.getMessage());
+//    }
     
     return con;
   }

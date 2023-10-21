@@ -25,6 +25,7 @@ package Data.Objects;
 
 import Data.Source.*;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
@@ -38,7 +39,7 @@ public class Database {
 		this.databaseConnector = _databaseConnector;
 	}
 	
-	public Connection connect() {
+	public Connection connect() throws ClassNotFoundException, SQLException {
 		return this.databaseConnector.connect();
 	}
 }

@@ -137,6 +137,7 @@ public final class Employees extends JInternalFrame {
       public void internalFrameIconified(InternalFrameEvent evt) {
       }
       public void internalFrameOpened(InternalFrameEvent evt) {
+        formInternalFrameOpened(evt);
       }
     });
 
@@ -348,6 +349,9 @@ public final class Employees extends JInternalFrame {
       (desktopSize.width - internalFrameSize.width) / 2,
       (desktopSize.height - internalFrameSize.height) / 2
     );
+    
+    resetTheForm();
+    refreshTableContents();
   }//GEN-LAST:event_formInternalFrameDeiconified
 
   private void btnAddOrEditActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnAddOrEditActionPerformed
@@ -553,6 +557,11 @@ public final class Employees extends JInternalFrame {
     resetTheForm();
     refreshTableContents();
   }//GEN-LAST:event_formInternalFrameClosing
+
+  private void formInternalFrameOpened(InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+    resetTheForm();
+    refreshTableContents();
+  }//GEN-LAST:event_formInternalFrameOpened
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

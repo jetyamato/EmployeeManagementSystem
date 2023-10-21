@@ -132,6 +132,7 @@ public final class List extends JInternalFrame {
       public void internalFrameIconified(InternalFrameEvent evt) {
       }
       public void internalFrameOpened(InternalFrameEvent evt) {
+        formInternalFrameOpened(evt);
       }
     });
 
@@ -207,12 +208,20 @@ public final class List extends JInternalFrame {
       (desktopSize.width - internalFrameSize.width) / 2,
       (desktopSize.height - internalFrameSize.height) / 2
     );
+    
+    resetTheForm();
+    refreshTableContents();
   }//GEN-LAST:event_formInternalFrameDeiconified
 
   private void formInternalFrameClosing(InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
     resetTheForm();
     refreshTableContents();
   }//GEN-LAST:event_formInternalFrameClosing
+
+  private void formInternalFrameOpened(InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+    resetTheForm();
+    refreshTableContents();
+  }//GEN-LAST:event_formInternalFrameOpened
 
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -78,4 +78,14 @@ public final class DependencyInjector {
       )
     );
   }
+  
+  public Database test_database() {
+    return new Database(
+      new MySQLDatabaseConnector(
+        "jdbc:mysql://127.0.0.1:3308/employee_management_system",
+  "root",
+  "@dministrator001"
+      )
+    );
+  }
 }
