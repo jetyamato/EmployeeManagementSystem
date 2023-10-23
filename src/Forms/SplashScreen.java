@@ -37,9 +37,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import EmployeeManagementSystem.DependencyInjector;
+import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
+import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  *
@@ -52,6 +56,8 @@ public class SplashScreen extends javax.swing.JFrame {
    */
   public SplashScreen() {
     initComponents();
+    jLabel1.setForeground(Color.white);
+    lblProgress.setForeground(Color.white);
   }
 
   /**
@@ -64,6 +70,7 @@ public class SplashScreen extends javax.swing.JFrame {
     jProgressBar1 = new JProgressBar();
     jLabel1 = new JLabel();
     lblProgress = new JLabel();
+    jLabel2 = new JLabel();
 
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setUndecorated(true);
@@ -72,44 +79,21 @@ public class SplashScreen extends javax.swing.JFrame {
         formWindowOpened(evt);
       }
     });
+    getContentPane().setLayout(new AbsoluteLayout());
 
     jProgressBar1.setFont(new Font("Arial", 0, 18)); // NOI18N
     jProgressBar1.setStringPainted(true);
+    getContentPane().add(jProgressBar1, new AbsoluteConstraints(10, 250, 470, -1));
 
     jLabel1.setFont(new Font("Arial", 0, 24)); // NOI18N
-    jLabel1.setText("LOADING");
+    jLabel1.setText("Employee Management System");
+    getContentPane().add(jLabel1, new AbsoluteConstraints(140, 210, -1, -1));
 
     lblProgress.setText("Loading...");
+    getContentPane().add(lblProgress, new AbsoluteConstraints(6, 278, -1, -1));
 
-    GroupLayout layout = new GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-          .addGroup(layout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(jProgressBar1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-          .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-              .addGroup(layout.createSequentialGroup()
-                .addGap(147, 147, 147)
-                .addComponent(jLabel1))
-              .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblProgress)))
-            .addGap(0, 141, Short.MAX_VALUE)))
-        .addContainerGap())
-    );
-    layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-      .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addContainerGap(110, Short.MAX_VALUE)
-        .addComponent(jLabel1)
-        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(jProgressBar1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        .addGap(112, 112, 112)
-        .addComponent(lblProgress)
-        .addContainerGap())
-    );
+    jLabel2.setIcon(new ImageIcon(getClass().getResource("/Resources/blue-1634110_1280.png"))); // NOI18N
+    getContentPane().add(jLabel2, new AbsoluteConstraints(0, 0, 490, 300));
 
     pack();
     setLocationRelativeTo(null);
@@ -288,6 +272,7 @@ public class SplashScreen extends javax.swing.JFrame {
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   public JLabel jLabel1;
+  public JLabel jLabel2;
   public JProgressBar jProgressBar1;
   public JLabel lblProgress;
   // End of variables declaration//GEN-END:variables

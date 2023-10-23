@@ -63,11 +63,11 @@ public class Main extends javax.swing.JFrame {
   public Main() {
     initComponents();
     setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-    lblCurrentUser.setFont(new Font("JetBrains Mono", Font.PLAIN, 48));
+    lblCurrentUser.setFont(new Font("Arial", Font.PLAIN, 48));
     lblCurrentUser.setForeground(Color.white);
-    lblClock.setFont(new Font("JetBrains Mono", Font.PLAIN, 24));
+    lblClock.setFont(new Font("Arial", Font.PLAIN, 24));
     lblClock.setForeground(Color.white);
-    lblDate.setFont(new Font("JetBrains Mono", Font.PLAIN, 24));
+    lblDate.setFont(new Font("Arial", Font.PLAIN, 24));
     lblDate.setForeground(Color.white);
     jDesktopPane1.setDesktopManager(new DefaultDesktopManager() {
       

@@ -36,6 +36,10 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import EmployeeManagementSystem.*;
+import java.awt.Color;
+import javax.swing.ImageIcon;
+import org.netbeans.lib.awtextra.AbsoluteConstraints;
+import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  *
@@ -50,6 +54,8 @@ public class Login extends javax.swing.JFrame {
    */
   public Login() {
     initComponents();
+    jLabel1.setForeground(Color.white);
+    jLabel2.setForeground(Color.white);
   }
 
   /**
@@ -65,20 +71,26 @@ public class Login extends javax.swing.JFrame {
     passwordField = new JPasswordField();
     btnLogin = new JButton();
     btnExit = new JButton();
+    jLabel3 = new JLabel();
 
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setUndecorated(true);
+    getContentPane().setLayout(new AbsoluteLayout());
 
     jLabel1.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
     jLabel1.setText("Username:");
+    getContentPane().add(jLabel1, new AbsoluteConstraints(79, 94, -1, -1));
 
     txtUsername.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
+    getContentPane().add(txtUsername, new AbsoluteConstraints(183, 89, 161, -1));
 
     jLabel2.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
     jLabel2.setText("Password:");
+    getContentPane().add(jLabel2, new AbsoluteConstraints(79, 147, 86, -1));
 
     passwordField.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
     passwordField.setEchoChar('\u25cf');
+    getContentPane().add(passwordField, new AbsoluteConstraints(183, 142, 161, -1));
 
     btnLogin.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
     btnLogin.setText("Login");
@@ -87,6 +99,7 @@ public class Login extends javax.swing.JFrame {
         btnLoginActionPerformed(evt);
       }
     });
+    getContentPane().add(btnLogin, new AbsoluteConstraints(119, 222, -1, -1));
 
     btnExit.setFont(new Font("Segoe UI", 0, 18)); // NOI18N
     btnExit.setText("Exit");
@@ -95,43 +108,10 @@ public class Login extends javax.swing.JFrame {
         btnExitActionPerformed(evt);
       }
     });
+    getContentPane().add(btnExit, new AbsoluteConstraints(217, 222, -1, -1));
 
-    GroupLayout layout = new GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-      .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-        .addGap(71, 71, 71)
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-          .addComponent(jLabel2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-          .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addGap(18, 18, 18)
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-          .addComponent(txtUsername)
-          .addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
-        .addGap(71, 71, 71))
-      .addGroup(layout.createSequentialGroup()
-        .addGap(111, 111, 111)
-        .addComponent(btnLogin)
-        .addGap(18, 18, 18)
-        .addComponent(btnExit)
-        .addContainerGap())
-    );
-    layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-      .addGroup(layout.createSequentialGroup()
-        .addGap(71, 71, 71)
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-          .addComponent(jLabel1)
-          .addComponent(txtUsername, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        .addGap(18, 18, 18)
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-          .addComponent(jLabel2)
-          .addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        .addGap(45, 45, 45)
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-          .addComponent(btnLogin)
-          .addComponent(btnExit))
-        .addGap(71, 71, 71))
-    );
+    jLabel3.setIcon(new ImageIcon(getClass().getResource("/Resources/blue-1634110_1280.png"))); // NOI18N
+    getContentPane().add(jLabel3, new AbsoluteConstraints(0, 0, 420, 340));
 
     pack();
     setLocationRelativeTo(null);
@@ -202,6 +182,7 @@ public class Login extends javax.swing.JFrame {
   JButton btnLogin;
   JLabel jLabel1;
   JLabel jLabel2;
+  JLabel jLabel3;
   JPasswordField passwordField;
   JTextField txtUsername;
   // End of variables declaration//GEN-END:variables
