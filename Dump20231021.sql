@@ -1,11 +1,14 @@
+CREATE DATABASE  IF NOT EXISTS `employee_management_system` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `employee_management_system`;
+--
+-- Create user credentials for `employee_management_system`
+--
 CREATE USER 'employee_management_system'@'%' IDENTIFIED BY '!%IKe%S+nJP}UfQ';
 GRANT USAGE ON *.* TO 'employee_management_system'@'%';
 ALTER USER 'employee_management_system'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;
 
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON  `employee\_management\_system`.* TO 'employee_management_system'@'%';
 ALTER USER 'employee_management_system'@'%';
-CREATE DATABASE  IF NOT EXISTS `employee_management_system` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `employee_management_system`;
 -- MySQL dump 10.13  Distrib 8.0.34, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: employee_management_system
